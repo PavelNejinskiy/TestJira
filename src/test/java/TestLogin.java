@@ -2,10 +2,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -14,19 +13,29 @@ public class TestLogin {
 
     private static WebDriver driver;
 
-    @BeforeTest
+    static String login = "Pavel";
+    static String password = "droplles";
+
+    @BeforeGroups (groups = "positive")
     public static void openPage() {
-        login();
+        login(login, password);
     }
 
 
-    @Test
+    @Test (priority = 1, groups = "positive")
     public static void testLogin() throws InterruptedException {
         Assert.assertEquals(driver.findElement(By.cssSelector(".aui-page-header-main > h1:nth-child(1)")).getText(), "System Dashboard");
 
     }
 
-    @Test
+    @Test (priority = 1)
+    public static void testFailedLogn() throws InterruptedException {
+        login("test", "test");
+        Assert.assertEquals(myElement(By.cssSelector("#usernameerror > p:nth-child(2)")).getText(), "Sorry, your username and password are incorrect - please try again.");
+        close();
+    }
+
+    @Test (priority = 2, groups = "positive")
     public static void testCreateIssue() throws InterruptedException {
         myElement(By.cssSelector("#browse_link")).click();
         myElement(By.cssSelector("#admin_main_proj_link_lnk")).click();
@@ -37,14 +46,14 @@ public class TestLogin {
 
     }
 
-    @Test
+    @Test (priority = 3, groups = "positive")
     public static void testOpenIssue() throws InterruptedException {
         myElement(By.cssSelector("#find_link")).click();
         myElement(By.cssSelector("#issue_lnk_15926_lnk")).click();
         Assert.assertEquals(myElement(By.cssSelector("#summary-val")).getText(), "Test Issue");
     }
 
-    @AfterTest
+    @AfterGroups(groups = "positive")
     public static void closePage() throws InterruptedException {
         close();
     }
@@ -54,6 +63,8 @@ public class TestLogin {
     public static void open(String url)
     {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\chromdriver\\chromedriver.exe");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized","--incognito");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(url);
@@ -61,11 +72,11 @@ public class TestLogin {
     }
 
 
-    public static void login() {
+    public static void login(String login, String password) {
         open("http://jira.hillel.it:8080");
 
-        myElement(By.cssSelector("#login-form-username")).sendKeys("Pavel");
-        myElement(By.cssSelector("#login-form-password")).sendKeys("droplles");
+        myElement(By.cssSelector("#login-form-username")).sendKeys(login);
+        myElement(By.cssSelector("#login-form-password")).sendKeys(password);
         myElement(By.cssSelector("#login")).click();
 
     }
