@@ -1,3 +1,5 @@
+package MyTestJira;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -68,7 +70,7 @@ public class TestLogin {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(url);
-        driver.manage().timeouts().implicitlyWait(10, SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, SECONDS);
     }
 
 

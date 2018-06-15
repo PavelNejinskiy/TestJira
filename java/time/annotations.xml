@@ -1,0 +1,5 @@
+<root>
+    <item name='java.time.Duration java.time.Duration ofSeconds(long)'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>
