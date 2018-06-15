@@ -83,9 +83,9 @@ public class IssuePage {
     public void downloadAttachment() throws FileNotFoundException, NoSuchAlgorithmException {
         browser.get(attachmentLink);
         File file1 = new File(JiraVars.attachmentFileLocation + JiraVars.attachmentFileName);
-       // File file2 = new File(browser.get(downloadAttachment()));    
+       File file2 = new File("http://jira.hillel.it:8080/secure/thumbnail/13657/_thumb_13657.png");
 
-       Tools.md5Apache(file1);
+      Assert.assertEquals(Tools.md5Apache(file1), Tools.md5Apache(file2));
 
         // https://stackoverflow.com/questions/304268/getting-a-files-md5-checksum-in-java
     }
