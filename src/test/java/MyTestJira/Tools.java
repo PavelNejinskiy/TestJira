@@ -1,30 +1,32 @@
-package hillelauto;
+package MyTestJira;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.io.*;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-
 public class Tools {
-    private static WebDriver browser;
+
+    private static WebDriver driver;
 
     public static void setDriver(WebDriver browser) {
-        Tools.browser = browser;
+        Tools.driver = browser;
+    }
+
+    public static WebElement myElement(By by)
+    {
+        WebElement element = driver.findElement(by);
+        return element;
     }
 
     public static WebElement clearAndFill(By selector, String data) {
-        WebElement element = browser.findElement(selector);
+        WebElement element = driver.findElement(selector);
         element.clear();
         element.sendKeys(data);
 
@@ -65,5 +67,4 @@ public class Tools {
 
         return output;
     }
-
 }
