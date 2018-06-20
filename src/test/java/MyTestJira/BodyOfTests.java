@@ -1,5 +1,8 @@
 package MyTestJira;
 
+import TestRailApi.APIClient;
+import TestRailApi.APIException;
+import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -15,7 +18,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.time.Duration.ofSeconds;
 
@@ -33,6 +38,9 @@ public class BodyOfTests implements Variables{
     private WebElement inputUploadAttachment;
     @FindBy(css = "a.attachment-title")
     private WebElement linkAttachmentName;
+
+
+    APIClient apiClient;
 
 
     public static void setDriver(WebDriver driver) {
@@ -105,9 +113,22 @@ public class BodyOfTests implements Variables{
         ImageIO.write( image, typ, f1 );
 
         File file1 = new File(Variables.attachmentFileLocation + Variables.attachmentFileName);
-        File file2 = new File(Variables.attachmentFileLocation + Variables.attachmentFileName);
+       // File file2 = new File(Variables.attachmentFileLocation + Variables.attachmentFileName);
 
-        Assert.assertEquals(Tools.md5Apache(file1), Tools.md5Apache(file2));
+        Assert.assertEquals(Tools.md5Apache(file1), Tools.md5Apache(f1));
+    }
+
+
+    public void sendPost() throws IOException, APIException {
+        apiClient = new APIClient("https://hillelmanold.testrail.io");
+
+        apiClient.setUser("rvalek@intersog.com");
+        apiClient.setPassword("hillel");
+
+        Map data = new HashMap();
+        data.put("status_id", new Integer(1));
+        data.put("comment", "This test worked fine!");
+        JSONObject r = (JSONObject) apiClient.sendPost("add_result_for_case/1/1", data);
     }
 
 

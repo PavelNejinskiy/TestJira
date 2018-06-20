@@ -1,5 +1,6 @@
 package MyTestJira;
 
+import TestRailApi.APIException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,8 +27,9 @@ public class TestsJira extends WebDriverBase implements Variables{
     }
 
     @Test (priority = -1)
-    public static void testFailedLogin() throws InterruptedException {
+    public static void testFailedLogin() throws InterruptedException, IOException, APIException {
         bot.failedLogin();
+
     }
 
     @Test (priority = 1, groups = "positive")
@@ -59,6 +61,11 @@ public class TestsJira extends WebDriverBase implements Variables{
     @Test(priority = 6, groups = "Admin")
     public static void testcreateUser() throws IOException, NoSuchAlgorithmException, InterruptedException {
         bot.createUser();
+    }
+
+    @Test(priority = 7, groups = "TestRail")
+    public static void testSendRail() throws IOException, APIException {
+        bot.sendPost();
     }
 
 }
