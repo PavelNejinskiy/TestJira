@@ -26,14 +26,15 @@ public class TestsJira extends WebDriverBase implements Variables{
         bot.login(login, password);
     }
 
-    @Test (priority = -1)
+    @Test (priority = -1, groups =  "negative", retryAnalyzer = utility.RetryAnalyzer.class)
     public static void testFailedLogin() throws InterruptedException, IOException, APIException {
         bot.failedLogin();
 
     }
 
-    @Test (priority = 1, groups = "positive")
+    @Test (priority = 1, groups = "positiveLogin")
     public static void testLogin() throws InterruptedException {
+
         bot.testLogin();
     }
 

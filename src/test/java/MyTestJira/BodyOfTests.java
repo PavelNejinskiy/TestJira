@@ -50,11 +50,12 @@ public class BodyOfTests implements Variables{
     public void failedLogin()
     {
         login("test", "test");
-        Assert.assertEquals(Tools.myElement(By.cssSelector("#usernameerror > p:nth-child(2)")).getText(), "Sorry, your username and password are incorrect - please try again.");
+        Assert.assertEquals(Tools.myElement(By.cssSelector("#usernameerror > p:nth-child(2)")).getText(), "Sorry, your userid is required to answer a CAPTCHA question correctly.");
     }
 
     public void testLogin()
     {
+        login("ffffffff", Variables.password);
         Assert.assertEquals(driver.findElement(By.cssSelector(".aui-page-header-main > h1:nth-child(1)")).getText(), "System Dashboard");
     }
 

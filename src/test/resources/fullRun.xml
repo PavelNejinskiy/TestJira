@@ -1,13 +1,40 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Sanity Suite" verbose="0" group-by-instances="true">
-    <test name="Sanity" verbose="1" group-by-instances="true">
-        <groups>
-            <run>
-                <exclude name="disabled"/>
-            </run>
-        </groups>
-        <packages>
-            <package name="hillelauto.jira"/>
-        </packages>
+
+
+    <listeners>
+
+        <listener class-name="utility.AnnotationTransformer"></listener>
+
+    </listeners>
+
+    <!--<test name="Sanity" verbose="1" group-by-instances="true">-->
+
+
+        <!--<groups>-->
+            <!--<run>-->
+                <!--<exclude name="positive"/>-->
+            <!--</run>-->
+        <!--</groups>-->
+
+
+        <!--<packages>-->
+            <!--<package name="MyTestJira"/>-->
+        <!--</packages>-->
+    <!--</test>-->
+
+
+
+    <test name = "TestJira">
+       <groups>
+           <run>
+               <include name="positiveLogin"/>
+           </run>
+       </groups>
+
+        <classes>
+            <class name="MyTestJira.TestsJira"/>
+        </classes>
+
     </test>
 </suite>
