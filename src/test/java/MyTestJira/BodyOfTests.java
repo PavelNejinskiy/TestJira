@@ -129,7 +129,7 @@ public class BodyOfTests implements Variables{
         Map data = new HashMap();
         data.put("status_id", new Integer(1));
         data.put("comment", "This test worked fine!");
-        JSONObject r = (JSONObject) apiClient.sendPost("add_result_for_case/1/1", data);
+        JSONObject r = (JSONObject) apiClient.sendPost("add_result_for_case/3/27", data);
     }
 
 
