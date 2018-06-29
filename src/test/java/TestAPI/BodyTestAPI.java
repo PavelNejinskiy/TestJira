@@ -20,10 +20,15 @@ package TestAPI;
 
  */
 
+import org.testng.Assert;
+
 public class BodyTestAPI {
+
+    ToolsAPI tools = new ToolsAPI();
 
     // test 1 and 9 tasks
     public void contentType() {
+       Assert.assertEquals(tools.get("URL"), "application/json");
 
     }
 
