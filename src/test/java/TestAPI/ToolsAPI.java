@@ -1,90 +1,45 @@
 package TestAPI;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.*;
-import org.json.JSONObject;
-import sun.misc.IOUtils;
-import sun.nio.ch.IOUtil;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 
 public class ToolsAPI {
 
-    HttpClient httpClient;
-    HttpPost httpPost;
-    HttpGet httpGet;
-    ResponseHandler<String> responseHandler;
-    BufferedReader rd;
+//
+//    public void whenPostJsonUsingHttpClient_thenCorrect() throws ClientProtocolException, IOException {
+//
+//        CloseableHttpClient client = HttpClients.createDefault();
+//        HttpPost httpPost = new HttpPost("http://www.example.com");
+//
+//        String json = "details={\"id\":\"3\",\"name\":\"Petrov Petr\",\"phone\":\"+380670000001\", \"role\":\"Support\", \"location\":\"Kiev\"}";
+//        StringEntity entity = new StringEntity(json);
+//        httpPost.setEntity(entity);
+//        httpPost.setHeader("Accept", "application/json");
+//        httpPost.setHeader("Content-type", "application/json");
+//
+//        CloseableHttpResponse response = client.execute(httpPost);
+//        assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
+//        client.close();
+//    }
 
+    public CloseableHttpResponse getRespons(String url, HttpPost httpPost) throws ClientProtocolException, IOException {
 
-    protected String get(String url) {
-        httpClient = new DefaultHttpClient();
-        httpGet = new HttpGet(url);
-        responseHandler = new BasicResponseHandler();
-        String responseBody = null;
-        try {
-            responseBody = httpClient.execute(httpGet, responseHandler);
-        } catch (IOException e) {
-            //  log.error("IOException", e);
-        } finally {
+        CloseableHttpClient client = HttpClients.createDefault();
+       // HttpPost httpPost = new HttpPost(url);
+        CloseableHttpResponse response = client.execute(httpPost);
+        client.close();
 
-            httpClient.getConnectionManager().shutdown();
-        }
-        return responseBody;
-    }
-
-    protected String post(String url) {
-        httpClient = new DefaultHttpClient();
-        httpPost = new HttpPost(url);
-        responseHandler = new BasicResponseHandler();
-        String responseBody = null;
-        try {
-            responseBody = httpClient.execute(httpPost, responseHandler);
-        } catch (IOException e) {
-            // log.error("IOException", e);
-        } finally {
-
-            httpClient.getConnectionManager().shutdown();
-        }
-        return responseBody;
-    }
-
-    protected void myGet(String url) throws IOException {
-
-        HttpClient httpClient = HttpClientBuilder.create().build();
-
-        try {
-
-            HttpPost request = new HttpPost(url);
-            StringEntity params =new StringEntity("details={\"id\":\"3\",\"name\":\"Petrov Petr\",\"phone\":\"+380670000001\", \"role\":\"Support\", \"location\":\"Kiev\"} ");
-            request.addHeader("content-type", "application/json");
-            request.setEntity(params);
-            HttpResponse response = httpClient.execute(request);
-
-            //handle response here...
-
-        }catch (Exception ex) {
-
-            //handle exception here
-
-        } finally {
-            //Deprecated
-            //httpClient.getConnectionManager().shutdown();
-        }
-
-        // { id: '3', name: 'Petrov Petr', phone: '+380670000001', role: 'Support', location: 'Kiev' }
+        return response;
     }
 
 

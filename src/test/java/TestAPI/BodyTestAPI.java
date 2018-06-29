@@ -20,19 +20,31 @@ package TestAPI;
 
  */
 
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.testng.Assert;
+
+import java.io.IOException;
 
 public class BodyTestAPI {
 
     ToolsAPI tools = new ToolsAPI();
+    String url = "";
+    HttpPost httpPost;
 
     // test 1 and 9 tasks
-    public void contentType() {
-       Assert.assertEquals(tools.get("URL"), "application/json");
+    public void contentType() throws IOException {
+        String json = "details={\"id\":\"3\",\"name\":\"Petrov Petr\",\"phone\":\"+380670000001\", \"role\":\"Support\", \"location\":\"Kiev\"}";
+        httpPost = new HttpPost(url);
+
+        Assert.assertEquals(tools.getRespons(url, httpPost).getHeaders("content-type"), "application/json");
 
     }
 
-    public void returnErrorContentType() {
+    public void returnErrorContentType() throws IOException {
+
+      //  Assert.assertEquals(tools.getRespons(url, httpPost.setHeader("content-type", "")).toString(), "401");
     }
 
     public void getUser() {

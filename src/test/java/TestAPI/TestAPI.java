@@ -2,6 +2,8 @@ package TestAPI;
 
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 public class TestAPI {
 
     BodyTestAPI bod = new BodyTestAPI();
@@ -12,7 +14,7 @@ public class TestAPI {
     }
 
     @Test(priority = -1, groups = "positive")
-    public void testContentType() {
+    public void testContentType() throws IOException {
         bod.contentType();
         // test 1 and 9  tasks
     }
