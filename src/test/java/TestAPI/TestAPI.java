@@ -50,7 +50,7 @@ public class TestAPI {
     }
 
     @Test(priority = 7, groups = "positive")
-    public void testReturnErrorContentType() {
+    public void testReturnErrorContentType() throws IOException {
         bod.returnErrorContentType();
     }
 

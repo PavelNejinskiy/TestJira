@@ -36,8 +36,8 @@ public class ToolsAPI {
 
         CloseableHttpClient client = HttpClients.createDefault();
        // HttpPost httpPost = new HttpPost(url);
+        httpPost.addHeader("accept", "application/json");
         CloseableHttpResponse response = client.execute(httpPost);
-        client.close();
 
         return response;
     }

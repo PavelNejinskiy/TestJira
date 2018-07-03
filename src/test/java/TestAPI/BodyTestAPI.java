@@ -20,6 +20,7 @@ package TestAPI;
 
  */
 
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -35,10 +36,9 @@ public class BodyTestAPI {
 
     // test 1 and 9 tasks
     public void contentType() throws IOException {
-        String json = "details={\"id\":\"3\",\"name\":\"Petrov Petr\",\"phone\":\"+380670000001\", \"role\":\"Support\", \"location\":\"Kiev\"}";
-        httpPost = new HttpPost(url);
+       // String json = "details={\"id\":\"3\",\"name\":\"Petrov Petr\",\"phone\":\"+380670000001\", \"role\":\"Support\", \"location\":\"Kiev\"}";
 
-        Assert.assertEquals(tools.getRespons(url, httpPost).getHeaders("content-type"), "application/json");
+        Assert.assertEquals(tools.getRespons(url, new HttpPost(url)).getHeaders("content-type"), "application/json");
 
     }
 
@@ -48,6 +48,8 @@ public class BodyTestAPI {
     }
 
     public void getUser() {
+      //  UsernamePasswordCredentials creds = new UsernamePasswordCredentials("user", "pwd");
+
     }
 
     public void saveUserUsePUT() {
