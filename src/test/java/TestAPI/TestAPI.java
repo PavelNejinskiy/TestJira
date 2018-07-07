@@ -8,63 +8,63 @@ public class TestAPI {
 
     BodyTestAPI bod = new BodyTestAPI();
 
-    @Test(priority = -2, groups = "positive")
+    @Test(priority = -2, groups = "positiveApi")
         public void testServerPort(){
         bod.serverPort();
     }
 
-    @Test(priority = -1, groups = "positive")
+    @Test(priority = -1, groups = "positiveApi")
     public void testContentType() throws IOException {
         bod.contentType();
         // test 1 and 9  tasks
     }
 
-    @Test(priority = 1, groups = "positive")
+    @Test(priority = 1, groups = "positiveApi")
     public void testCreateNewUserPOST() {
         bod.createNewUserPOST();
     }
 
-    @Test(priority = 2, groups = "positive")
-    public void testGetUser() {
+    @Test(priority = 2, groups = "positiveApi")
+    public void testGetUser() throws IOException {
         bod.getUser();
     }
 
-    @Test(priority = 3, groups = "positive")
+    @Test(priority = 3, groups = "positiveApi")
     public void testSaveUserUsePUT() {
         bod.saveUserUsePUT();
     }
 
-    @Test(priority = 4, groups = "positive")
+    @Test(priority = 4, groups = "positiveApi")
     public void testCreateAdministrator() {
         bod.createAdministrator();
     }
 
-    @Test(priority = 5, groups = "positive")
+    @Test(priority = 5, groups = "positiveApi")
     public void testSaveAdministrator() {
         bod.saveAdministrator();
     }
 
-    @Test(priority = 6, groups = "positive")
+    @Test(priority = 6, groups = "positiveApi")
     public void testDeleteUser() {
         bod.deleteUser();
     }
 
-    @Test(priority = 7, groups = "positive")
+    @Test(priority = 7, groups = "positiveApi")
     public void testReturnErrorContentType() throws IOException {
         bod.returnErrorContentType();
     }
 
-    @Test(priority = 7, groups = "positive")
+    @Test(priority = 7, groups = "positiveApi")
     public void testDefaultCondition() {
         bod.defaultCondition();
     }
 
-    @Test(priority = 8, groups = "positive")
+    @Test(priority = 8, groups = "positiveApi")
     public void testRole() {
         bod.role();
     }
 
-    @Test(priority = 9, groups = "positive")
+    @Test(priority = 9, groups = "positiveApi")
     public void testDeleteOrModification() {
         bod.deleteOrModification();
     }

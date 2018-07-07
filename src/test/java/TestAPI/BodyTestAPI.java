@@ -17,38 +17,60 @@ package TestAPI;
 { id: '3', name: 'Petrov Petr', phone: '+380670000001', role: 'Support', location: 'Kiev' }
 12. Если приходит некорректное поле role (смотри условие задания №4) - возвращать 401 ошибку
 13. Если происходит попытка модификации или удаления несуществующего id - сервер должен возвращать 404 ошибку
-
+где host все запросы начинаются с /api/users
  */
 
+import org.apache.http.HttpEntity;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.util.EntityUtils;
+import org.apache.xmlbeans.impl.piccolo.xml.Entity;
+import org.json.simple.JSONObject;
 import org.testng.Assert;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class BodyTestAPI {
 
     ToolsAPI tools = new ToolsAPI();
-    String url = "";
+      String url = "https://192.168.1.79:20007";
+    //String url = "https://www.facebook.com/linda.colombrita.37?fref=grp_mmbr_list";
     HttpPost httpPost;
 
     // test 1 and 9 tasks
     public void contentType() throws IOException {
        // String json = "details={\"id\":\"3\",\"name\":\"Petrov Petr\",\"phone\":\"+380670000001\", \"role\":\"Support\", \"location\":\"Kiev\"}";
 
-        Assert.assertEquals(tools.getRespons(url, new HttpPost(url)).getHeaders("content-type"), "application/json");
+        HttpEntity entity = tools.getRespons(url).getEntity();
+        System.out.println(entity.getContentType().getName());
+
+        String json = EntityUtils.toString(tools.getRespons(url).getEntity());
+        System.out.println(json);
+
+        //Assert.assertEquals(tools.getRespons(url).getHeaders("content-type"), "application/json");
+        Assert.assertEquals(entity.getContentType().getName(), "Content-Type");
 
     }
 
     public void returnErrorContentType() throws IOException {
 
-      //  Assert.assertEquals(tools.getRespons(url, httpPost.setHeader("content-type", "")).toString(), "401");
+        String statusCode = new Integer(tools.getRespons(url).getStatusLine().getStatusCode()).toString();
+
+      Assert.assertEquals(statusCode, "401");
     }
 
-    public void getUser() {
-      //  UsernamePasswordCredentials creds = new UsernamePasswordCredentials("user", "pwd");
+    public void getUser() throws IOException {
+        BufferedReader br  = new BufferedReader(new InputStreamReader(tools.getHttpGet(url).getEntity().getContent()));
+        String line = "";
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+
+            //  UsernamePasswordCredentials creds = new UsernamePasswordCredentials("user", "pwd");
 
     }
 
