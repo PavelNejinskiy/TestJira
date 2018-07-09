@@ -1,6 +1,5 @@
 package FacebookAPI;
 
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -9,6 +8,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -50,6 +50,22 @@ public class ToolsFacebook {
     }
 
 
+    public Subscriber deleteName(String line)
+    {
+        String name = "";
+        String lastName = "";
+        String id = "";
+
+
+            String[] words = line.split("\\s"); // Разбиение строки на слова с помощью разграничителя (пробел)
+            name = words[0];
+            for (int i = 1; i < words.length; i++) {
+                lastName += words[i];
+            }
+
+        return new Subscriber(name, lastName, id);
+    }
+
 
     public HashMap<String,String> readXls(String file) {
 
@@ -85,6 +101,30 @@ public class ToolsFacebook {
         }
 
         return map;
+    }
+
+
+    public static void writeIntoExcel(String file, List <Subscriber> list) throws FileNotFoundException, IOException{
+        Workbook book = new HSSFWorkbook();
+        Sheet sheet = book.createSheet("result");
+
+        Row row = sheet.createRow(0);
+
+        for (int i = 0; i < list.size(); i++) {
+
+            Cell name = row.createCell(i);
+            Cell lastName = row.createCell(i+1);
+            Cell id = row.createCell(i+2);
+            name.setCellValue(list.get(i).name);
+            lastName.setCellValue(list.get(i).lastName);
+            id.setCellValue(list.get(i).ID);
+
+        }
+//        // Меняем размер столбца
+//        sheet.autoSizeColumn(1);
+
+        book.write(new FileOutputStream(file));
+        book.close();
     }
 
 

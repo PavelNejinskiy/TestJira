@@ -5,18 +5,18 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.util.*;
 
 public class BodyFacebook {
 
     ToolsFacebook tools = new ToolsFacebook();
 
-    static String file = "G:\\QA\\new.xls";
+    static String fileRead = "G:\\QA\\new.xls";
+    static String fileWrite = "G:\\QA\\result.xls";
 
     HashMap<String, String> sortMapWhitID;
     HashMap<String, String> mapWithoutID;
-    List<Abonent> list;
+    List<Subscriber> list;
 
 
     public String getID(String url) throws IOException, ParseException, InterruptedException {
@@ -52,27 +52,28 @@ public class BodyFacebook {
     }
 
 
-    public void makeList(HashMap<String, String> map) throws IOException, ParseException, InterruptedException {
+    public void makeList(String fileForRead, String fileForWrite) throws IOException, ParseException, InterruptedException {
         list = new LinkedList<>();
 
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-
-            String[] words = entry.getValue().split("\\s"); // Разбиение строки на слова с помощью разграничителя (пробел)
-            String name = words[0];
-            String lastName = "";
-            String id = "";
-            id = getID(entry.getKey());
-
-            for (int i = 1; i < words.length; i++) {
-                lastName += words[i];
-            }
-
-            list.add(new Abonent(name, lastName, id));
-
-            System.out.println("Name = " + name + " LastName = " + lastName + " ID: " + id);
+        sortByID((HashMap) new ToolsFacebook().readXls(fileForRead));
+        // add abonents whit ID
+        for (Map.Entry<String, String> entry : sortMapWhitID.entrySet()) {
+            Subscriber subscriber = tools.deleteName(entry.getValue());
+            list.add(new Subscriber(subscriber.name, subscriber.lastName, subscriber.ID));
         }
 
-        //   return list;
+        // get ID from Facebook and add to list
+        for (Map.Entry<String, String> entry : mapWithoutID.entrySet()) {
+            Subscriber subscriber = tools.deleteName(entry.getValue());
+            list.add(new Subscriber(subscriber.name, subscriber.lastName, getID(entry.getKey())));
+
+           // The visibility of adding
+            System.out.println(subscriber.name + " " + subscriber.lastName + " " + getID(entry.getKey()));
+        }
+
+
+       tools.writeIntoExcel(fileForWrite, list);
+
     }
 
 
@@ -82,11 +83,10 @@ public class BodyFacebook {
         String temp = "";
         for (Map.Entry<String, String> entry : map.entrySet()) {
 
-            if (entry.getKey().contains("id")&&entry.getKey().contains("&")) {
+            if (entry.getKey().contains("id") && entry.getKey().contains("&")) {
                 temp = entry.getKey().substring(entry.getKey().indexOf("id="), entry.getKey().indexOf("&"));
                 sortMapWhitID.put(temp, entry.getValue());
-            }
-            else {
+            } else {
                 mapWithoutID.put(entry.getKey(), entry.getValue());
             }
 
@@ -95,13 +95,9 @@ public class BodyFacebook {
 
 
     public static void main(String[] args) throws IOException, ParseException, InvalidFormatException, InterruptedException {
-        String url = "https://www.facebook.com/linda.colombrita.37?fref=grp_mmbr_list";
+
         BodyFacebook body = new BodyFacebook();
-        //  body.makeList((HashMap) new ToolsFacebook().readXls(file));
-        //  body.getID(url);
-        //   System.out.println("id:" + getID("https://www.facebook.com/linda.colombrita.37?fref=grp_mmbr_list"));
-
-
+       // body.makeList();
     }
 }
 
