@@ -29,9 +29,6 @@ public class ToolsFacebook {
         httpPost.addHeader("accept", "application/json");
         CloseableHttpResponse response = client.execute(httpPost);
 
-        //client.close();
-        //httpPost.releaseConnection();
-
         return response;
     }
 
@@ -50,7 +47,7 @@ public class ToolsFacebook {
     }
 
 
-    public Subscriber deleteName(String line)
+    public Subscriber separationNameFromLastname(String line)
     {
         String name = "";
         String lastName = "";
@@ -67,7 +64,7 @@ public class ToolsFacebook {
     }
 
 
-    public HashMap<String,String> readXls(String file) {
+    public HashMap<String,String> readFromXls(String file) {
 
         HashMap<String, String> map = new LinkedHashMap<>();
         int count = 1;
@@ -108,20 +105,19 @@ public class ToolsFacebook {
         Workbook book = new HSSFWorkbook();
         Sheet sheet = book.createSheet("result");
 
-        Row row = sheet.createRow(0);
+
 
         for (int i = 0; i < list.size(); i++) {
-
-            Cell name = row.createCell(i);
-            Cell lastName = row.createCell(i+1);
-            Cell id = row.createCell(i+2);
+            Row row = sheet.createRow(i);
+            Cell name = row.createCell(0);
+            Cell lastName = row.createCell(1);
+            Cell id = row.createCell(2);
             name.setCellValue(list.get(i).name);
             lastName.setCellValue(list.get(i).lastName);
             id.setCellValue(list.get(i).ID);
+            sheet.autoSizeColumn(i);
 
         }
-//        // Меняем размер столбца
-//        sheet.autoSizeColumn(1);
 
         book.write(new FileOutputStream(file));
         book.close();

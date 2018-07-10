@@ -1,7 +1,6 @@
 package FacebookAPI;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
@@ -24,8 +23,6 @@ public class BodyFacebook {
         String body = IOUtils.toString(tools.getRespons(url).getEntity().getContent(), "UTF-8");
         int count = 0;
         String fbid = "";
-        //  String fbid = body.substring(body.indexOf("fbid="), body.indexOf("&"));
-
 
         char[] mass = body.toCharArray();
         char[] id = "fbid=\"".toCharArray();
@@ -55,16 +52,16 @@ public class BodyFacebook {
     public void makeList(String fileForRead, String fileForWrite) throws IOException, ParseException, InterruptedException {
         list = new LinkedList<>();
 
-        sortByID((HashMap) new ToolsFacebook().readXls(fileForRead));
+        sortByID((HashMap) new ToolsFacebook().readFromXls(fileForRead));
         // add abonents whit ID
         for (Map.Entry<String, String> entry : sortMapWhitID.entrySet()) {
-            Subscriber subscriber = tools.deleteName(entry.getValue());
+            Subscriber subscriber = tools.separationNameFromLastname(entry.getValue());
             list.add(new Subscriber(subscriber.name, subscriber.lastName, subscriber.ID));
         }
 
         // get ID from Facebook and add to list
         for (Map.Entry<String, String> entry : mapWithoutID.entrySet()) {
-            Subscriber subscriber = tools.deleteName(entry.getValue());
+            Subscriber subscriber = tools.separationNameFromLastname(entry.getValue());
             list.add(new Subscriber(subscriber.name, subscriber.lastName, getID(entry.getKey())));
 
            // The visibility of adding
@@ -93,12 +90,6 @@ public class BodyFacebook {
         }
     }
 
-
-    public static void main(String[] args) throws IOException, ParseException, InvalidFormatException, InterruptedException {
-
-        BodyFacebook body = new BodyFacebook();
-       // body.makeList();
-    }
 }
 
 
