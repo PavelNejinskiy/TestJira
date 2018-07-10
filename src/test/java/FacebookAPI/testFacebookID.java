@@ -13,16 +13,6 @@ public class testFacebookID {
     BodyFacebook body = new BodyFacebook();
 
     @Test
-    public void testreadxlsFile() {
-
-    }
-
-    @Test
-    public void testwritexlsFile() {
-
-    }
-
-    @Test
     public void testreadAndWrite() throws ParseException, InterruptedException, IOException {
         body.makeList(fileRead, fileWrite);
     }
